@@ -1,0 +1,1 @@
+# Prisma to Mermaid Generator
