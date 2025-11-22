@@ -3,7 +3,7 @@ import type {
   Relationships,
 } from "@/utils/types/generators.type.ts";
 
-import { getDMMF } from "@prisma/internals";
+import pkg from "@prisma/internals";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { inspect } from "node:util";
@@ -11,6 +11,8 @@ import { inspect } from "node:util";
 import { mermaidClassDiagramConfig } from "@/constants/prisma.ts";
 
 import { generateRelationships } from "./utils.ts";
+
+const { getDMMF } = pkg;
 
 export const generateDiagram = async ({
   isGenerator,

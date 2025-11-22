@@ -3,12 +3,14 @@ import type {
   Relationships,
 } from "@/utils/types/generators.type.ts";
 
-import { getDMMF } from "@prisma/internals";
+import pkg from "@prisma/internals";
 import { readFileSync, writeFileSync } from "fs";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 
 import { generateRelationships, getKeyConstraints } from "./utils.ts";
+
+const { getDMMF } = pkg;
 
 export const generateDiagram = async ({
   isGenerator,

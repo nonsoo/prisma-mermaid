@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "A Prisma generator that generates Mermaid Class or ER diagrams from your Prisma schema.",
   "main": "build/index.js",
+  "bin": {
+    "prisma-mermaid": "./build/lib/PrismaMermaidGenerators/bin.js"
+  },
   "types": "build/lib/PrismaMermaidGenerators/index.d.js",
   "files": [
     "build"
@@ -21,7 +24,14 @@
     "prettier:check": "prettier --check .",
     "start": "node build/index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "prisma",
+    "generator",
+    "diagrams",
+    "mermaid",
+    "erd",
+    "typescript"
+  ],
   "author": "Nonso O",
   "license": "ISC",
   "type": "module",
@@ -36,10 +46,6 @@
     ".": {
       "types": "./build/index.d.ts",
       "default": "./build/index.js"
-    },
-    "./generators": {
-      "types": "./build/lib/PrismaMermaidGenerators/index.d.ts",
-      "default": "./build/lib/PrismaMermaidGenerators/index.js"
     }
   },
   "devDependencies": {

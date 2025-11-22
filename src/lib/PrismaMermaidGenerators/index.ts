@@ -1,16 +1,51 @@
-import type {
-  GenerateDiagram,
-  PrismaGeneratorsKeys,
-} from "@/utils/types/generators.type.ts";
+import {
+  generatorHandler,
+  type GeneratorOptions,
+} from "@prisma/generator-helper";
 
-import { generateDiagram as generateMermaidClass } from "@/lib/MermaidClass/prismaMermaidClass.ts";
-import { generateDiagram as generateMermaidERD } from "@/lib/MermaidERD/prismaMermaidErd.ts";
+import { prismaGenerators } from "@/lib/PrismaMermaidGenerators/generator.ts";
 
-const prismaGenerators = new Map<PrismaGeneratorsKeys, GenerateDiagram>([
-  ["mermaid-erd", generateMermaidERD],
-  ["mermaid-class", generateMermaidClass],
-]);
+generatorHandler({
+  onManifest: () => {
+    return {
+      version: "1.0.0",
+      prettyName: "Mermaid Diagram Generator",
+    };
+  },
+  onGenerate: async (options: GeneratorOptions) => {
+    const schemaPath = options.schemaPath;
+    const outputDir = options.generator.output?.value ?? undefined;
+    const formats = options.generator.config.format ?? "mermaid-erd";
+    const disabled = process.env.PRISMA_DIAGRAM_GENERATOR_DISABLE ?? "false";
 
-export { generateMermaidClass, generateMermaidERD, prismaGenerators };
+    if (disabled) {
+      return;
+    }
 
-export * from "@/utils/types/generators.type.ts";
+    if (Array.isArray(formats)) {
+      for (const format of formats) {
+        const mermaidGenerator = prismaGenerators.get(
+          format as "mermaid-erd" | "mermaid-class"
+        );
+
+        if (!mermaidGenerator) continue;
+
+        mermaidGenerator({
+          isGenerator: true,
+          schemaPath,
+          outputPath: outputDir,
+        });
+      }
+
+      return;
+    }
+
+    const mermaidGenerator = prismaGenerators.get(
+      formats as "mermaid-erd" | "mermaid-class"
+    );
+
+    if (!mermaidGenerator) return;
+
+    mermaidGenerator({ isGenerator: true, schemaPath, outputPath: outputDir });
+  },
+});

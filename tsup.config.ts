@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/lib/PrismaMermaidGenerators/index.ts"],
+  entry: ["src/index.ts", "src/lib/PrismaMermaidGenerators/bin.ts"],
   outDir: "build",
   splitting: true,
   dts: true,
