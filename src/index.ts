@@ -1,11 +1,9 @@
-import type { GeneratorFunction } from "./utils/types/generators.type.ts";
-
 import {
   generatorHandler,
   type GeneratorOptions,
 } from "@prisma/generator-helper";
 
-import { prismaGenerators } from "@/constants/prisma.ts";
+import { prismaGenerators } from "@/lib/PrismaMermaidGenerators/index.ts";
 
 generatorHandler({
   onManifest: () => {
@@ -51,7 +49,3 @@ generatorHandler({
     mermaidGenerator({ isGenerator: true, schemaPath, outputPath: outputDir });
   },
 });
-
-export { prismaGenerators };
-
-// export type { GeneratorFunction };

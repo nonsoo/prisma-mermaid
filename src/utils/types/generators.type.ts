@@ -23,7 +23,7 @@ export type GenerateCardinalityOptions = {
 };
 
 export type ClassCardinality = '"*"' | '"1"' | '"0..1"';
-export type ERDCardinality = "||" | "}o" | "|o" | "}|" | "}{";
+export type ERDCardinality = "||" | "}|" | "o|";
 
 // Utility functions types
 
@@ -38,3 +38,5 @@ export type GenerateRelationships = (
 export type GenerateCardinality = (
   options: GenerateCardinalityOptions
 ) => ClassCardinality | ERDCardinality;
+
+export type PrismaGeneratorsKeys = "mermaid-erd" | "mermaid-class";
