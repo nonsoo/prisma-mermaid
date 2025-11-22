@@ -1,15 +1,19 @@
+import type {
+  GenerateCardinalityOptions,
+  GenerateDiagramOptions,
+  GenerateRelationshipOptions,
+  Relationships,
+} from "@/utils/types/generators.type.ts";
+
 import { getDMMF } from "@prisma/internals";
 import { readFileSync, writeFileSync } from "fs";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 
-const getCardinality = ({
+const generateCardinality = ({
   isList,
   isRequired,
-}: {
-  isList: boolean;
-  isRequired: boolean;
-}) => {
+}: GenerateCardinalityOptions) => {
   if (isList) {
     // shows many relationship
     return "}|";
@@ -36,17 +40,7 @@ const getKeyConstraints = (
 
 const generateRelationships = ({
   relationships,
-}: {
-  relationships: Record<
-    string,
-    {
-      model: string;
-      fieldType: string;
-      isList: boolean;
-      isRequired: boolean;
-    }[]
-  >;
-}) => {
+}: GenerateRelationshipOptions) => {
   const relationLines: Array<string> = [];
 
   for (const relName in relationships) {
@@ -63,10 +57,10 @@ const generateRelationships = ({
       const a = sides[0];
       if (!a) continue;
       relationLines.push(
-        `\t${a.model} ${getCardinality({
+        `\t${a.model} ${generateCardinality({
           isList: a.isList,
           isRequired: a.isRequired,
-        })}--${getCardinality({ isList: false, isRequired: true })} ${
+        })}--${generateCardinality({ isList: false, isRequired: true })} ${
           a.fieldType
         } : ${relName}`
       );
@@ -77,10 +71,10 @@ const generateRelationships = ({
       if (!a || !b) continue;
 
       relationLines.push(
-        `\t${a.model} ${getCardinality({
+        `\t${a.model} ${generateCardinality({
           isList: a.isList,
           isRequired: a.isRequired,
-        })}--${getCardinality({
+        })}--${generateCardinality({
           isList: b.isList,
           isRequired: b.isRequired,
         })} ${b.model} : ${relName}`
@@ -94,10 +88,10 @@ const generateRelationships = ({
         if (!a || !b) continue;
 
         relationLines.push(
-          `\t${a.model} ${getCardinality({
+          `\t${a.model} ${generateCardinality({
             isList: a.isList,
             isRequired: a.isRequired,
-          })}--${getCardinality({
+          })}--${generateCardinality({
             isList: b.isList,
             isRequired: b.isRequired,
           })} ${b.model} : ${relName}`
@@ -113,11 +107,7 @@ export const generateDiagram = async ({
   isGenerator,
   outputPath,
   schemaPath,
-}: {
-  isGenerator: boolean;
-  schemaPath: string;
-  outputPath: string | undefined;
-}) => {
+}: GenerateDiagramOptions) => {
   const outputDir = outputPath
     ? path.resolve(process.cwd(), `src/generated/${outputPath}`)
     : path.join(`${process.cwd()}/src/generated/diagrams`);
@@ -133,15 +123,7 @@ export const generateDiagram = async ({
     "%% --------------------------------------------\n",
     "erDiagram",
   ];
-  const relationships: Record<
-    string,
-    Array<{
-      model: string;
-      fieldType: string;
-      isList: boolean;
-      isRequired: boolean;
-    }>
-  > = {};
+  const relationships: Relationships = {};
 
   schemaModels.forEach((model) => {
     mermaidLines.push(`\t${model.name} {`);

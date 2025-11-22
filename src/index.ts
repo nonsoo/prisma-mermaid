@@ -1,8 +1,11 @@
-import { prismaGenerators } from "@/constants/prisma.ts";
+import type { GeneratorFunction } from "./utils/types/generators.type.ts";
+
 import {
   generatorHandler,
   type GeneratorOptions,
 } from "@prisma/generator-helper";
+
+import { prismaGenerators } from "@/constants/prisma.ts";
 
 generatorHandler({
   onManifest: () => {
@@ -23,7 +26,9 @@ generatorHandler({
 
     if (Array.isArray(formats)) {
       for (const format of formats) {
-        const mermaidGenerator = prismaGenerators.get(format);
+        const mermaidGenerator = prismaGenerators.get(
+          format as "mermaid-erd" | "mermaid-class"
+        );
 
         if (!mermaidGenerator) continue;
 
@@ -37,10 +42,16 @@ generatorHandler({
       return;
     }
 
-    const mermaidGenerator = prismaGenerators.get(formats);
+    const mermaidGenerator = prismaGenerators.get(
+      formats as "mermaid-erd" | "mermaid-class"
+    );
 
     if (!mermaidGenerator) return;
 
     mermaidGenerator({ isGenerator: true, schemaPath, outputPath: outputDir });
   },
 });
+
+export { prismaGenerators };
+
+// export type { GeneratorFunction };

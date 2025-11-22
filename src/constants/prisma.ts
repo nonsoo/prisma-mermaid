@@ -1,7 +1,18 @@
 import { generateDiagram as generateMermaidClass } from "@/lib/prismaMermaidClass.ts";
 import { generateDiagram as generateMermaidERD } from "@/lib/prismaMermaidErd.ts";
 
-export const prismaGenerators = new Map([
+export const prismaGenerators = new Map<
+  "mermaid-erd" | "mermaid-class",
+  ({
+    isGenerator,
+    outputPath,
+    schemaPath,
+  }: {
+    isGenerator: boolean;
+    schemaPath: string;
+    outputPath: string | undefined;
+  }) => Promise<string>
+>([
   ["mermaid-erd", generateMermaidERD],
   ["mermaid-class", generateMermaidClass],
 ]);
