@@ -18,7 +18,7 @@ export const generateDiagram = async ({
   schemaPath,
 }: GenerateDiagramOptions) => {
   const outputDir = outputPath
-    ? path.resolve(process.cwd(), `src/generated/${outputPath}`)
+    ? path.resolve(process.cwd(), outputPath)
     : path.join(`${process.cwd()}/src/generated/diagrams`);
   const schema = isGenerator ? schemaPath : readFileSync(schemaPath, "utf-8");
   const dmmf = await getDMMF({ datamodel: schema });

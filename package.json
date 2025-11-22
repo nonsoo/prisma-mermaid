@@ -21,8 +21,7 @@
     "test": "vitest",
     "test:ci": "vitest run",
     "prettier:fix": "prettier --write .",
-    "prettier:check": "prettier --check .",
-    "start": "node build/index.js"
+    "prettier:check": "prettier --check ."
   },
   "keywords": [
     "prisma",
