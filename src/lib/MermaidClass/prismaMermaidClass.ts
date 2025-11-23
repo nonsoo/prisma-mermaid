@@ -15,71 +15,79 @@ import { generateRelationships } from "./utils.ts";
 const { getDMMF } = pkg;
 
 export const generateDiagram = async ({
-  isGenerator,
   outputPath,
   schemaPath,
 }: GenerateDiagramOptions) => {
   const outputDir = outputPath
-    ? path.resolve(process.cwd(), outputPath)
+    ? path.resolve(outputPath)
     : path.join(`${process.cwd()}/src/generated/diagrams`);
-  const schema = isGenerator ? schemaPath : readFileSync(schemaPath, "utf-8");
-  const dmmf = await getDMMF({ datamodel: schema });
-  const models = dmmf.datamodel.models;
-  const enums = dmmf.datamodel.enums;
+  const schema = readFileSync(schemaPath, "utf-8");
 
-  const mermaidLines: string[] = [
-    "%% --------------------------------------------",
-    "%% Auto-generated Mermaid Class Diagram.  Do Not Edit Directly.",
-    "%% --------------------------------------------\n",
-    `%%${inspect(mermaidClassDiagramConfig, {
-      depth: null,
-      colors: false,
-    })}%%\n`,
-    "classDiagram",
-  ];
+  try {
+    const dmmf = await getDMMF({
+      datamodel: schema,
+    });
 
-  const relationships: Relationships = {};
+    const models = dmmf.datamodel.models;
+    const enums = dmmf.datamodel.enums;
 
-  models.forEach((model) => {
-    mermaidLines.push(`class ${model.name} {`);
+    const mermaidLines: string[] = [
+      "%% --------------------------------------------",
+      "%% Auto-generated Mermaid Class Diagram.  Do Not Edit Directly.",
+      "%% --------------------------------------------\n",
+      `%%${inspect(mermaidClassDiagramConfig, {
+        depth: null,
+        colors: false,
+      })}%%\n`,
+      "classDiagram",
+    ];
 
-    model.fields.forEach((field) => {
-      mermaidLines.push(`  ${field.type} ${field.name}`);
+    const relationships: Relationships = {};
 
-      if (field.relationName) {
-        if (!relationships[field.relationName]) {
-          relationships[field.relationName] = [];
+    models.forEach((model) => {
+      mermaidLines.push(`class ${model.name} {`);
+
+      model.fields.forEach((field) => {
+        mermaidLines.push(`  ${field.type} ${field.name}`);
+
+        if (field.relationName) {
+          if (!relationships[field.relationName]) {
+            relationships[field.relationName] = [];
+          }
+
+          relationships[field.relationName]!.push({
+            model: model.name,
+            fieldType: field.type,
+            isList: field.isList ?? false,
+            isRequired: field.isRequired ?? false,
+          });
         }
+      });
 
-        relationships[field.relationName]!.push({
-          model: model.name,
-          fieldType: field.type,
-          isList: field.isList ?? false,
-          isRequired: field.isRequired ?? false,
-        });
-      }
+      mermaidLines.push("}");
     });
 
-    mermaidLines.push("}");
-  });
-
-  enums.forEach((enumDef) => {
-    mermaidLines.push(`class ${enumDef.name} {`);
-    enumDef.values.forEach((val) => {
-      mermaidLines.push(`  <<enumeration>> ${val}`);
+    enums.forEach((enumDef) => {
+      mermaidLines.push(`class ${enumDef.name} {`);
+      enumDef.values.forEach((val) => {
+        mermaidLines.push(`  <<enumeration>> ${val}`);
+      });
+      mermaidLines.push("}");
     });
-    mermaidLines.push("}");
-  });
 
-  const relationLines = generateRelationships({ relationships });
-  const output = mermaidLines.concat(relationLines).join("\n");
+    const relationLines = generateRelationships({ relationships });
+    const output = mermaidLines.concat(relationLines).join("\n");
 
-  mkdirSync(outputDir, { recursive: true });
-  const outFile = path.join(outputDir, "mermaidClassDiagram.mmd");
+    mkdirSync(outputDir, { recursive: true });
+    const outFile = path.join(outputDir, "mermaidClassDiagram.mmd");
 
-  writeFileSync(outFile, output, "utf-8");
+    writeFileSync(outFile, output, "utf-8");
 
-  console.log(`Mermaid Class Diagram written to: ${outFile}`);
+    console.log(`Mermaid Class Diagram written to: ${outFile}`);
 
-  return outFile;
+    return outFile;
+  } catch (e) {
+    console.error("Failed to generate Mermaid Class Diagram.", e);
+    return "";
+  }
 };

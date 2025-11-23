@@ -18,7 +18,7 @@ generatorHandler({
     const formats = options.generator.config.format ?? "mermaid-erd";
     const disabled = process.env.PRISMA_DIAGRAM_GENERATOR_DISABLE ?? "false";
 
-    if (disabled) {
+    if (disabled === "true") {
       return;
     }
 

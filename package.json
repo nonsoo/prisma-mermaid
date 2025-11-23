@@ -67,6 +67,6 @@
     "prisma": "^6.10.0 || ^7.0.0"
   },
   "dependencies": {
-    "@prisma/internals": "^7.0.0"
+    "@prisma/internals": "^6.19.0"
   }
 }
