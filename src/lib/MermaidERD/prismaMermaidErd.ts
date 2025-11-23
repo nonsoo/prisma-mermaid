@@ -13,73 +13,78 @@ import { generateRelationships, getKeyConstraints } from "./utils.ts";
 const { getDMMF } = pkg;
 
 export const generateDiagram = async ({
-  isGenerator,
   outputPath,
   schemaPath,
 }: GenerateDiagramOptions) => {
   const outputDir = outputPath
-    ? path.resolve(process.cwd(), outputPath)
+    ? path.resolve(outputPath)
     : path.join(`${process.cwd()}/src/generated/diagrams`);
-  const schema = isGenerator ? schemaPath : readFileSync(schemaPath, "utf-8");
-  const dmmf = await getDMMF({ datamodel: schema });
+  const schema = readFileSync(schemaPath, "utf-8");
 
-  const schemaModels = dmmf.datamodel.models;
-  const schemaEnums = dmmf.datamodel.enums;
+  try {
+    const dmmf = await getDMMF({ datamodel: schema });
 
-  const mermaidLines: string[] = [
-    "%% --------------------------------------------",
-    "%% Auto-generated Mermaid ER Diagram. Do Not Edit Directly.",
-    "%% --------------------------------------------\n",
-    "erDiagram",
-  ];
-  const relationships: Relationships = {};
+    const schemaModels = dmmf.datamodel.models;
+    const schemaEnums = dmmf.datamodel.enums;
 
-  schemaModels.forEach((model) => {
-    mermaidLines.push(`\t${model.name} {`);
+    const mermaidLines: string[] = [
+      "%% --------------------------------------------",
+      "%% Auto-generated Mermaid ER Diagram. Do Not Edit Directly.",
+      "%% --------------------------------------------\n",
+      "erDiagram",
+    ];
+    const relationships: Relationships = {};
 
-    model.fields.forEach((field) => {
-      mermaidLines.push(
-        `\t\t${field.type} ${field.name} ${getKeyConstraints(
-          field.isId,
-          field.nativeType
-        )}`
-      );
+    schemaModels.forEach((model) => {
+      mermaidLines.push(`\t${model.name} {`);
 
-      if (field.relationName) {
-        if (!relationships[field.relationName]) {
-          relationships[field.relationName] = [];
+      model.fields.forEach((field) => {
+        mermaidLines.push(
+          `\t\t${field.type} ${field.name} ${getKeyConstraints(
+            field.isId,
+            field.nativeType
+          )}`
+        );
+
+        if (field.relationName) {
+          if (!relationships[field.relationName]) {
+            relationships[field.relationName] = [];
+          }
+          relationships[field.relationName]!.push({
+            model: model.name,
+            fieldType: field.type,
+            isList: field.isList ?? false,
+            isRequired: field.isRequired ?? false,
+          });
         }
-        relationships[field.relationName]!.push({
-          model: model.name,
-          fieldType: field.type,
-          isList: field.isList ?? false,
-          isRequired: field.isRequired ?? false,
-        });
-      }
+      });
+
+      mermaidLines.push(`\t}`);
     });
 
-    mermaidLines.push(`\t}`);
-  });
+    schemaEnums.forEach((enumDef) => {
+      mermaidLines.push(`\t${enumDef.name} {`);
 
-  schemaEnums.forEach((enumDef) => {
-    mermaidLines.push(`\t${enumDef.name} {`);
+      enumDef.values.forEach((enumValue) => {
+        mermaidLines.push(`\t\t${enumValue}`);
+      });
 
-    enumDef.values.forEach((enumValue) => {
-      mermaidLines.push(`\t\t${enumValue}`);
+      mermaidLines.push(`\t}`);
     });
 
-    mermaidLines.push(`\t}`);
-  });
+    const relationLines = generateRelationships({ relationships });
+    const output = mermaidLines.concat(relationLines);
 
-  const relationLines = generateRelationships({ relationships });
-  const output = mermaidLines.concat(relationLines);
+    mkdirSync(outputDir, { recursive: true });
+    const outFile = path.join(outputDir, "mermaidErdDiagram.mmd");
 
-  mkdirSync(outputDir, { recursive: true });
-  const outFile = path.join(outputDir, "mermaidErdDiagram.mmd");
+    writeFileSync(outFile, output.join("\n"));
 
-  writeFileSync(outFile, output.join("\n"));
+    console.log(`Mermaid ERD generated at: ${outFile}`);
 
-  console.log(`Mermaid ERD generated at: ${outFile}`);
-
-  return outFile;
+    return outFile;
+  } catch {
+    console.error("Failed to generate Mermaid ER Diagram.");
+    return "";
+  }
 };

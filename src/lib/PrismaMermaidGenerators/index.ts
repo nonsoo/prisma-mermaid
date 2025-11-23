@@ -31,7 +31,6 @@ generatorHandler({
         if (!mermaidGenerator) continue;
 
         mermaidGenerator({
-          isGenerator: true,
           schemaPath,
           outputPath: outputDir,
         });
@@ -46,6 +45,6 @@ generatorHandler({
 
     if (!mermaidGenerator) return;
 
-    mermaidGenerator({ isGenerator: true, schemaPath, outputPath: outputDir });
+    mermaidGenerator({ schemaPath, outputPath: outputDir });
   },
 });

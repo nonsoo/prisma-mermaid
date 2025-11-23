@@ -1,5 +1,4 @@
 export type GenerateDiagramOptions = {
-  isGenerator: boolean;
   schemaPath: string;
   outputPath: string | undefined;
 };
