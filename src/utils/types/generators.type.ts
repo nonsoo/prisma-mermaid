@@ -1,4 +1,7 @@
+import type { DMMF } from "@prisma/generator-helper";
+
 export type GenerateDiagramOptions = {
+  generatorPrismaDocument?: DMMF.Document;
   schemaPath: string;
   outputPath: string | undefined;
 };

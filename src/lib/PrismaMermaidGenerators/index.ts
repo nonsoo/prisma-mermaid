@@ -17,6 +17,7 @@ generatorHandler({
     const outputDir = options.generator.output?.value ?? undefined;
     const formats = options.generator.config.format ?? "mermaid-erd";
     const disabled = process.env.PRISMA_DIAGRAM_GENERATOR_DISABLE ?? "false";
+    const generatorPrismaDocument = options.dmmf;
 
     if (disabled === "true") {
       return;
@@ -33,6 +34,7 @@ generatorHandler({
         mermaidGenerator({
           schemaPath,
           outputPath: outputDir,
+          generatorPrismaDocument,
         });
       }
 
@@ -45,6 +47,10 @@ generatorHandler({
 
     if (!mermaidGenerator) return;
 
-    mermaidGenerator({ schemaPath, outputPath: outputDir });
+    mermaidGenerator({
+      schemaPath,
+      outputPath: outputDir,
+      generatorPrismaDocument,
+    });
   },
 });

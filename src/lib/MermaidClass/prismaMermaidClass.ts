@@ -17,6 +17,7 @@ const { getDMMF } = pkg;
 export const generateDiagram = async ({
   outputPath,
   schemaPath,
+  generatorPrismaDocument,
 }: GenerateDiagramOptions) => {
   const outputDir = outputPath
     ? path.resolve(outputPath)
@@ -24,12 +25,14 @@ export const generateDiagram = async ({
   const schema = readFileSync(schemaPath, "utf-8");
 
   try {
-    const dmmf = await getDMMF({
-      datamodel: schema,
-    });
+    const prismaDocument =
+      generatorPrismaDocument ??
+      (await getDMMF({
+        datamodel: schema,
+      }));
 
-    const models = dmmf.datamodel.models;
-    const enums = dmmf.datamodel.enums;
+    const models = prismaDocument.datamodel.models;
+    const enums = prismaDocument.datamodel.enums;
 
     const mermaidLines: string[] = [
       "%% --------------------------------------------",
