@@ -14,6 +14,19 @@ import { generateRelationships } from "./utils.ts";
 
 const { getDMMF } = pkg;
 
+/**
+ * Generates a Mermaid **Class Diagram** from a Prisma schema.
+ *
+ * This function reads the Prisma schema (via a provided DMMF document or by
+ * reading and parsing the schema file), extracts all models, enums, and
+ * relationships, and constructs a Mermaid `classDiagram` definition.
+ *
+ * The output file is written to:
+ *   `<outputPath>/mermaidClassDiagram.mmd`
+ * or, if `outputPath` is omitted:
+ *   `<projectRoot>/src/generated/diagrams/mermaidClassDiagram.mmd`
+ */
+
 export const generateDiagram = async ({
   outputPath,
   schemaPath,

@@ -12,6 +12,19 @@ import { generateRelationships, getKeyConstraints } from "./utils.ts";
 
 const { getDMMF } = pkg;
 
+/**
+ * Generates a Mermaid ERD (Entity-Relationship Diagram) from a Prisma schema.
+ *
+ * This function reads the Prisma schema (either from the provided DMMF document
+ * or by loading and parsing the schema file), extracts all models, enums, and
+ * relationships, and then produces a `.mmd` Mermaid ER diagram file.
+ *
+ * The output file is written to:
+ *   `<outputPath>/mermaidErdDiagram.mmd`
+ * or, if no output path is provided:
+ *   `<projectRoot>/src/generated/diagrams/mermaidErdDiagram.mmd`
+ */
+
 export const generateDiagram = async ({
   outputPath,
   schemaPath,
