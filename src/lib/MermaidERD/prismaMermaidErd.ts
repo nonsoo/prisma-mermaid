@@ -20,13 +20,12 @@ export const generateDiagram = async ({
   const outputDir = outputPath
     ? path.resolve(outputPath)
     : path.join(`${process.cwd()}/src/generated/diagrams`);
-  const schema = readFileSync(schemaPath, "utf-8");
 
   try {
     const prismaDocument =
       generatorPrismaDocument ??
       (await getDMMF({
-        datamodel: schema,
+        datamodel: readFileSync(schemaPath, "utf-8"),
       }));
 
     const schemaModels = prismaDocument.datamodel.models;
