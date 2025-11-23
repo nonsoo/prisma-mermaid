@@ -29,6 +29,7 @@
     "diagrams",
     "mermaid",
     "erd",
+    "Entity Relationship Diagram",
     "typescript"
   ],
   "author": "Nonso O",
@@ -64,7 +65,8 @@
     "vitest": "^4.0.10"
   },
   "peerDependencies": {
-    "prisma": "^6.10.0 || ^7.0.0"
+    "prisma": "^6.10.0 || ^7.0.0",
+    "@prisma/client": "^6.0.0 || ^7.0.0"
   },
   "dependencies": {
     "@prisma/internals": "^7.0.0"
