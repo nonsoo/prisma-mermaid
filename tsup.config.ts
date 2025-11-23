@@ -3,13 +3,13 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts", "src/lib/PrismaMermaidGenerators/bin.ts"],
   outDir: "build",
-  splitting: true,
+  splitting: false,
+  treeshake: false,
   dts: true,
   clean: true,
-  treeshake: true,
   platform: "node",
   target: "node22",
-  format: ["esm"],
+  format: ["esm", "cjs"],
   esbuildOptions: (options) => {
     options.alias = {
       "@": "./src",

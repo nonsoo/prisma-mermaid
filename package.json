@@ -4,7 +4,7 @@
   "description": "A Prisma generator that generates Mermaid Class or ER diagrams from your Prisma schema.",
   "main": "build/index.js",
   "bin": {
-    "prisma-mermaid": "./build/lib/PrismaMermaidGenerators/bin.js"
+    "prisma-mermaid": "./build/lib/PrismaMermaidGenerators/bin.cjs"
   },
   "types": "build/lib/PrismaMermaidGenerators/index.d.js",
   "files": [
