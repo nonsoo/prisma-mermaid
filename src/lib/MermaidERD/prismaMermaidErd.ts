@@ -8,6 +8,9 @@ import { readFileSync, writeFileSync } from "fs";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 
+import { mermaidERDiagramConfig } from "@/constants/mermaid.ts";
+import { generateMermaidConfig } from "@/utils/mermaid.ts";
+
 import {
   generateRelationships,
   getKeyConstraints,
@@ -52,6 +55,7 @@ export const generateDiagram = async ({
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid ER Diagram. Do Not Edit Directly.",
       "%% --------------------------------------------\n",
+      generateMermaidConfig(mermaidERDiagramConfig, schemaModels),
       "erDiagram",
     ];
     const relationships: Relationships = {};
@@ -69,14 +73,12 @@ export const generateDiagram = async ({
         }
 
         mermaidLines.push(
-          `\t\t${field.type} ${field.name} ${getOptionalitySymbol(
-            field.isRequired
-          )} ${getKeyConstraints(
+          `\t\t${field.type} ${field.name} ${getKeyConstraints(
             field.isId,
             field.name,
             foreignKeys,
             field.nativeType
-          )}`
+          )} ${getOptionalitySymbol(field.isRequired)}`
         );
 
         if (field.relationName) {
