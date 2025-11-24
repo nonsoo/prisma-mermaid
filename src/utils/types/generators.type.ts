@@ -41,4 +41,10 @@ export type GenerateCardinality = (
   options: GenerateCardinalityOptions
 ) => ClassCardinality | ERDCardinality;
 
+export type GenerateDiagramSpacingOptions = {
+  models: DMMF.Datamodel["models"];
+  baseNode: number;
+  baseEdge: number;
+};
+
 export type PrismaGeneratorsKeys = "mermaid-erd" | "mermaid-class";

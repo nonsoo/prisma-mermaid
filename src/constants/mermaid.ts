@@ -27,3 +27,6 @@ export const mermaidClassDiagramConfig = {
     hideEmptyMembersBox: true,
   },
 };
+
+export const DEFAULT_BASE_NODE_SPACING = 100;
+export const DEFAULT_BASE_EDGE_SPACING = 150;

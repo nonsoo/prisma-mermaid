@@ -7,7 +7,7 @@ import pkg from "@prisma/internals";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
-import { mermaidClassDiagramConfig } from "@/constants/prisma.ts";
+import { mermaidClassDiagramConfig } from "@/constants/mermaid.ts";
 import { generateMermaidConfig } from "@/utils/mermaid.ts";
 
 import { generateRelationships } from "./utils.ts";
@@ -50,7 +50,7 @@ export const generateDiagram = async ({
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid Class Diagram.  Do Not Edit Directly.",
       "%% --------------------------------------------\n",
-      generateMermaidConfig(mermaidClassDiagramConfig),
+      generateMermaidConfig(mermaidClassDiagramConfig, models),
       "classDiagram",
     ];
 
