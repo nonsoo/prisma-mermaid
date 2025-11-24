@@ -33,7 +33,7 @@
     "typescript"
   ],
   "author": "Nonso O",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",
