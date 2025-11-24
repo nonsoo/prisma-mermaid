@@ -10,16 +10,9 @@ npm i --save-dev @nonsoo/prisma-mermaid @mermaid-js/mermaid-cli
 
 ## Usage (Prisma Generator)
 
+Add the following generator to your prisma schema
+
 ```prisma
-datasource db {
-  provider = "postgresql"
-}
-
-generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
-}
-
 generator diagram {
   provider = "prisma-mermaid"
   output   = "../src/generated/diagrams"
@@ -34,7 +27,7 @@ generator diagram {
 | mermaid-erd   | Generates a Mermaid ERD diagram   |
 | mermaid-class | Generates a Mermaid class diagram |
 
-### Disabling the Generator (Useful for CI)
+### Disabling the Diagram Generator (Useful for CI)
 
 Set the following environment variable in your .env:
 
@@ -44,7 +37,7 @@ PRISMA_DIAGRAM_GENERATOR_DISABLE=true
 
 ## Usage (Internal Functions)
 
-You can also call the underlying functions directly if you want to generate diagrams outside of Prisma CLI.
+You can also call the underlying functions directly if you want to generate diagrams outside of the Prisma CLI.
 
 ```js
 import {
