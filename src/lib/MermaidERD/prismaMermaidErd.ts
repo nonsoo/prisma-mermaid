@@ -59,13 +59,22 @@ export const generateDiagram = async ({
     schemaModels.forEach((model) => {
       mermaidLines.push(`\t${model.name} {`);
 
+      const foreignKeys = new Set<string>();
+
       model.fields.forEach((field) => {
+        if (field.relationFromFields && field.relationFromFields.length > 0) {
+          field.relationFromFields.forEach((fk) => {
+            foreignKeys.add(fk);
+          });
+        }
+
         mermaidLines.push(
           `\t\t${field.type} ${field.name} ${getOptionalitySymbol(
             field.isRequired
           )} ${getKeyConstraints(
             field.isId,
-            field.isReadOnly,
+            field.name,
+            foreignKeys,
             field.nativeType
           )}`
         );

@@ -18,7 +18,8 @@ const generateCardinality = ({
 
 export const getKeyConstraints = (
   isId: boolean,
-  isReadonly: boolean,
+  fieldName: string,
+  foreignKeys: Set<string>,
   nativeTypes?: readonly [string, readonly string[]] | null
 ) => {
   if (isId) return "PK";
@@ -26,12 +27,12 @@ export const getKeyConstraints = (
   if (nativeTypes) {
     const allNativeTypes = nativeTypes.flatMap((nativeType) => nativeType);
 
-    if (!isId && (allNativeTypes.includes("UniqueIdentifier") || isReadonly)) {
+    if (!isId && allNativeTypes.includes("UniqueIdentifier")) {
       return "FK";
     }
   }
 
-  if (!isId && isReadonly) return "FK";
+  if (!isId && foreignKeys.has(fieldName)) return "FK";
 
   return "";
 };
