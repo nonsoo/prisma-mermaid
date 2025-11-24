@@ -62,3 +62,11 @@ await generateMermaidERD({
   output: "./diagrams/erdDiagram.mmd",
 });
 ```
+
+## Philosophy
+
+Documentation should evolve alongside the code it describes. Diagrams-as-code tools such as Mermaid make it easier for teams to maintain clear, accurate diagrams as their systems grow and change. However, creating these diagrams manually — especially for database schemas — still introduces friction and the risk of diagrams falling out of sync with the system.
+
+Prisma already provides a single source of truth for your data model through the Prisma schema. Therefore, by generating diagrams directly from this schema, we can ensure documentation stays automatically aligned with the current state of the database models.
+
+This library bridges that gap. It transforms your Prisma schema into Mermaid-powered ERD or class diagrams, combining code generation with diagrams-as-code. Once generated, these diagrams can be used to create Markdown files, SVGs, PDFs, or any other Mermaid-supported output — always consistent, always up to date.
