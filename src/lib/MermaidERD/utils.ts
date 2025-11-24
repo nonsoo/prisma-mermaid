@@ -18,6 +18,7 @@ const generateCardinality = ({
 
 export const getKeyConstraints = (
   isId: boolean,
+  isReadonly: boolean,
   nativeTypes?: readonly [string, readonly string[]] | null
 ) => {
   if (isId) return "PK";
@@ -25,10 +26,18 @@ export const getKeyConstraints = (
   if (nativeTypes) {
     const allNativeTypes = nativeTypes.flatMap((nativeType) => nativeType);
 
-    if (!isId && allNativeTypes.includes("UniqueIdentifier")) return "FK";
+    if (!isId && (allNativeTypes.includes("UniqueIdentifier") || isReadonly)) {
+      return "FK";
+    }
   }
 
+  if (!isId && isReadonly) return "FK";
+
   return "";
+};
+
+export const getOptionalitySymbol = (isRequired: boolean) => {
+  return isRequired ? "" : `"?"`;
 };
 
 export const generateRelationships = ({
