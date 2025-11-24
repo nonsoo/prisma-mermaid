@@ -8,6 +8,9 @@ import { readFileSync, writeFileSync } from "fs";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 
+import { mermaidERDiagramConfig } from "@/constants/prisma.ts";
+import { generateMermaidConfig } from "@/utils/mermaid.ts";
+
 import {
   generateRelationships,
   getKeyConstraints,
@@ -52,6 +55,7 @@ export const generateDiagram = async ({
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid ER Diagram. Do Not Edit Directly.",
       "%% --------------------------------------------\n",
+      generateMermaidConfig(mermaidERDiagramConfig),
       "erDiagram",
     ];
     const relationships: Relationships = {};
