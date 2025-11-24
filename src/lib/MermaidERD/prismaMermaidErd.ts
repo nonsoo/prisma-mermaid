@@ -8,7 +8,11 @@ import { readFileSync, writeFileSync } from "fs";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 
-import { generateRelationships, getKeyConstraints } from "./utils.ts";
+import {
+  generateRelationships,
+  getKeyConstraints,
+  getOptionalitySymbol,
+} from "./utils.ts";
 
 const { getDMMF } = pkg;
 
@@ -55,10 +59,22 @@ export const generateDiagram = async ({
     schemaModels.forEach((model) => {
       mermaidLines.push(`\t${model.name} {`);
 
+      const foreignKeys = new Set<string>();
+
       model.fields.forEach((field) => {
+        if (field.relationFromFields && field.relationFromFields.length > 0) {
+          field.relationFromFields.forEach((fk) => {
+            foreignKeys.add(fk);
+          });
+        }
+
         mermaidLines.push(
-          `\t\t${field.type} ${field.name} ${getKeyConstraints(
+          `\t\t${field.type} ${field.name} ${getOptionalitySymbol(
+            field.isRequired
+          )} ${getKeyConstraints(
             field.isId,
+            field.name,
+            foreignKeys,
             field.nativeType
           )}`
         );
