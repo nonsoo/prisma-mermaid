@@ -73,14 +73,12 @@ export const generateDiagram = async ({
         }
 
         mermaidLines.push(
-          `\t\t${field.type} ${field.name} ${getOptionalitySymbol(
-            field.isRequired
-          )} ${getKeyConstraints(
+          `\t\t${field.type} ${field.name} ${getKeyConstraints(
             field.isId,
             field.name,
             foreignKeys,
             field.nativeType
-          )}`
+          )} ${getOptionalitySymbol(field.isRequired)}`
         );
 
         if (field.relationName) {
