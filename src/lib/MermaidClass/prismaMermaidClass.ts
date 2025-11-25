@@ -82,7 +82,7 @@ export const generateDiagram = async ({
     enums.forEach((enumDef) => {
       mermaidLines.push(`class ${enumDef.name} {`);
       enumDef.values.forEach((val) => {
-        mermaidLines.push(`  <<enumeration>> ${val}`);
+        mermaidLines.push(`  <<enumeration>> ${val.name}`);
       });
       mermaidLines.push("}");
     });
