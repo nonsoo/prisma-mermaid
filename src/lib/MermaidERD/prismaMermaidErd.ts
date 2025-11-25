@@ -51,6 +51,8 @@ export const generateDiagram = async ({
     const schemaModels = prismaDocument.datamodel.models;
     const schemaEnums = prismaDocument.datamodel.enums;
 
+    console.dir(schemaEnums, { depth: null });
+
     const mermaidLines: string[] = [
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid ER Diagram. Do Not Edit Directly.",
@@ -101,7 +103,7 @@ export const generateDiagram = async ({
       mermaidLines.push(`\t${enumDef.name} {`);
 
       enumDef.values.forEach((enumValue) => {
-        mermaidLines.push(`\t\t${enumValue}`);
+        mermaidLines.push(`\t\t${enumValue.name}`);
       });
 
       mermaidLines.push(`\t}`);
