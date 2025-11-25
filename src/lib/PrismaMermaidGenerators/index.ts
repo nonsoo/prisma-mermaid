@@ -5,11 +5,13 @@ import {
 
 import { prismaGenerators } from "@/lib/PrismaMermaidGenerators/generator.ts";
 
+import packageData from "../../../package.json" with { type: "json" };
+
 generatorHandler({
   onManifest: () => {
     return {
-      version: "1.0.0",
-      prettyName: "Mermaid Diagram Generator",
+      version: packageData['version'],
+      prettyName: "Mermaid Diagram",
     };
   },
   onGenerate: async (options: GeneratorOptions) => {

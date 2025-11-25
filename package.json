@@ -1,6 +1,6 @@
 {
   "name": "@nonsoo/prisma-mermaid",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A Prisma generator that generates Mermaid Class or ER diagrams from your Prisma schema.",
   "main": "build/index.js",
   "bin": {
