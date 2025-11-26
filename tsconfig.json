@@ -30,5 +30,5 @@
       "@/*": ["./*"]
     }
   },
-  "exclude": ["eslint.config.ts", "vitest.config.mts", "tsup.config.ts"]
+  "exclude": ["eslint.config.ts", "vitest.config.ts", "tsup.config.ts"]
 }
