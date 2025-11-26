@@ -62,8 +62,7 @@
     "vitest": "^4.0.10"
   },
   "peerDependencies": {
-    "@prisma/client": "^6.0.0 || ^7.0.0",
-    "@prisma/internals": "^6.0.0 || ^7.0.0"
+    "@prisma/client": "^6.0.0 || ^7.0.0"
   },
   "dependencies": {
     "@prisma/internals": "^7.0.0"
