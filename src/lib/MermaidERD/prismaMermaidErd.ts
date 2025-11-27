@@ -36,6 +36,7 @@ export const generateDiagram = async ({
   outputPath,
   schemaPath,
   generatorPrismaDocument,
+  config,
 }: GenerateDiagramOptions) => {
   const outputDir = outputPath
     ? path.resolve(outputPath)
@@ -51,13 +52,19 @@ export const generateDiagram = async ({
     const schemaModels = prismaDocument.datamodel.models;
     const schemaEnums = prismaDocument.datamodel.enums;
 
-    console.dir(schemaEnums, { depth: null });
+    const userGeneratedConfig =
+      config?.type === "mermaid-erd" ? config?.config : {};
+
+    const diagramConfig = {
+      ...mermaidERDiagramConfig,
+      ...userGeneratedConfig,
+    };
 
     const mermaidLines: string[] = [
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid ER Diagram. Do Not Edit Directly.",
       "%% --------------------------------------------\n",
-      generateMermaidConfig(mermaidERDiagramConfig, schemaModels),
+      generateMermaidConfig(diagramConfig, schemaModels),
       "erDiagram",
     ];
     const relationships: Relationships = {};
