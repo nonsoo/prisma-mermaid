@@ -12,6 +12,19 @@ type ConfigTheme =
 
 type ConfigLook = "classic" | "handDrawn" | "neo";
 type ConfigLayout = "dagre" | "elk";
+type ConfigThemeVariables = {
+  fontSize: `${number}px`;
+  fontFamily: string;
+  padding: `${number}px`;
+  lineHeight: string;
+  nodeSpacing: number;
+  edgeSpacing: number;
+};
+type ConfigFlowchart = {
+  nodeSpacing: number;
+  rankSpacing: number;
+  htmlLabels: boolean;
+};
 
 export type MermaidERDiagramConfig = {
   type: Exclude<PrismaGeneratorsKeys, "mermaid-class">;
@@ -19,19 +32,8 @@ export type MermaidERDiagramConfig = {
     theme: ConfigTheme;
     layout: ConfigLayout;
     look: ConfigLook;
-    themeVariables: Partial<{
-      fontSize: string;
-      fontFamily: string;
-      padding: string;
-      lineHeight: string;
-      nodeSpacing: number;
-      edgeSpacing: number;
-    }>;
-    flowchart: Partial<{
-      nodeSpacing: number;
-      rankSpacing: number;
-      htmlLabels: boolean;
-    }>;
+    themeVariables: Partial<ConfigThemeVariables>;
+    flowchart: Partial<ConfigFlowchart>;
   }>;
 };
 
@@ -41,17 +43,8 @@ export type MermaidClassDiagramConfig = {
     theme: ConfigTheme;
     layout: ConfigLayout;
     look: ConfigLook;
-    themeVariables: Partial<{
-      fontFamily: string;
-      lineHeight: string;
-      nodeSpacing: number;
-      edgeSpacing: number;
-    }>;
-    flowchart: Partial<{
-      nodeSpacing: number;
-      rankSpacing: number;
-      htmlLabels: boolean;
-    }>;
+    themeVariables: Partial<ConfigThemeVariables>;
+    flowchart: Partial<ConfigFlowchart>;
     class: Partial<{
       hideEmptyMembersBox: boolean;
     }>;
