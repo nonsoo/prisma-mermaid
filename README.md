@@ -64,6 +64,35 @@ await generateMermaidERD({
 });
 ```
 
+## Styling Diagrams
+
+This library ships with sensible default styles for Mermaid ERD and Class diagrams. However, if you need more control, both `generateMermaidClass` and `generateMermaidERD` accept a configuration object that lets you customize the final diagram output.
+
+The configuration `type` is exported as `MermaidDiagramConfig`. You can import it directly and pass the config object to the generator functions.
+
+```ts
+import {
+  type MermaidDiagramConfig,
+  generateMermaidERD,
+} from "@nonsoo/prisma-mermaid";
+
+const config = {
+  type: "mermaid-erd",
+  config: {
+    type: "mermaid-erd",
+    config: {
+      layout: "elk",
+    },
+  },
+} satisfies MermaidDiagramConfig;
+
+await generateMermaidERD({
+  schemaPath: "./prisma/schema.prisma",
+  output: "./diagrams/erdDiagram.mmd",
+  config,
+});
+```
+
 ## Purpose
 
 Documentation should evolve alongside the code it describes. Diagrams-as-code tools such as Mermaid make it easier for teams to maintain clear, accurate diagrams as their systems grow and change. However, creating these diagrams manually — especially for database schemas — still introduces friction and the risk of diagrams falling out of sync with the system.
