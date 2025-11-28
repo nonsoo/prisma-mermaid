@@ -15,6 +15,7 @@ import {
   generateRelationships,
   getKeyConstraints,
   getOptionalitySymbol,
+  validateForeignKeys,
 } from "./utils.ts";
 
 const { getDMMF } = pkg;
@@ -36,6 +37,7 @@ export const generateDiagram = async ({
   outputPath,
   schemaPath,
   generatorPrismaDocument,
+  config,
 }: GenerateDiagramOptions) => {
   const outputDir = outputPath
     ? path.resolve(outputPath)
@@ -51,13 +53,19 @@ export const generateDiagram = async ({
     const schemaModels = prismaDocument.datamodel.models;
     const schemaEnums = prismaDocument.datamodel.enums;
 
-    console.dir(schemaEnums, { depth: null });
+    const userGeneratedConfig =
+      config?.type === "mermaid-erd" ? config?.config : {};
+
+    const diagramConfig = {
+      ...mermaidERDiagramConfig,
+      ...userGeneratedConfig,
+    };
 
     const mermaidLines: string[] = [
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid ER Diagram. Do Not Edit Directly.",
       "%% --------------------------------------------\n",
-      generateMermaidConfig(mermaidERDiagramConfig, schemaModels),
+      generateMermaidConfig(diagramConfig, schemaModels),
       "erDiagram",
     ];
     const relationships: Relationships = {};
@@ -65,6 +73,7 @@ export const generateDiagram = async ({
     schemaModels.forEach((model) => {
       mermaidLines.push(`\t${model.name} {`);
 
+      const foreignKeyLocation = new Map<string, number>();
       const foreignKeys = new Set<string>();
 
       model.fields.forEach((field) => {
@@ -83,6 +92,8 @@ export const generateDiagram = async ({
           )} ${getOptionalitySymbol(field.isRequired)}`
         );
 
+        foreignKeyLocation.set(field.name, mermaidLines.length - 1);
+
         if (field.relationName) {
           if (!relationships[field.relationName]) {
             relationships[field.relationName] = [];
@@ -94,6 +105,12 @@ export const generateDiagram = async ({
             isRequired: field.isRequired ?? false,
           });
         }
+      });
+
+      validateForeignKeys({
+        foreignKeyLocation,
+        foreignKeys,
+        mermaidLines,
       });
 
       mermaidLines.push(`\t}`);

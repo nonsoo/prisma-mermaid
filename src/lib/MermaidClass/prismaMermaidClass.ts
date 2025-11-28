@@ -31,6 +31,7 @@ export const generateDiagram = async ({
   outputPath,
   schemaPath,
   generatorPrismaDocument,
+  config,
 }: GenerateDiagramOptions) => {
   const outputDir = outputPath
     ? path.resolve(outputPath)
@@ -46,11 +47,19 @@ export const generateDiagram = async ({
     const models = prismaDocument.datamodel.models;
     const enums = prismaDocument.datamodel.enums;
 
+    const userGeneratedConfig =
+      config?.type === "mermaid-class" ? config?.config : {};
+
+    const diagramConfig = {
+      ...mermaidClassDiagramConfig,
+      ...userGeneratedConfig,
+    };
+
     const mermaidLines: string[] = [
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid Class Diagram.  Do Not Edit Directly.",
       "%% --------------------------------------------\n",
-      generateMermaidConfig(mermaidClassDiagramConfig, models),
+      generateMermaidConfig(diagramConfig, models),
       "classDiagram",
     ];
 

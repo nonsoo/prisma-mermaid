@@ -1,4 +1,7 @@
-import type { GenerateDiagramSpacingOptions } from "@/utils/types/generators.type.ts";
+import type {
+  GenerateDiagramSpacingOptions,
+  MermaidDiagramConfig,
+} from "@/utils/types/generators.type.ts";
 
 import {
   DEFAULT_BASE_EDGE_SPACING,
@@ -26,7 +29,7 @@ const generateDiagramSpacing = ({
 };
 
 const generateMermaidConfig = (
-  config: Record<string, unknown>,
+  config: MermaidDiagramConfig["config"],
   models: GenerateDiagramSpacingOptions["models"]
 ) => {
   if (config["themeVariables"]) {
@@ -37,7 +40,7 @@ const generateMermaidConfig = (
     });
 
     config["themeVariables"] = {
-      ...(config["themeVariables"] as Record<string, unknown>),
+      ...config["themeVariables"],
       edgeSpacing,
       nodeSpacing,
     };

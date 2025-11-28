@@ -1,7 +1,63 @@
 import type { DMMF } from "@prisma/generator-helper";
 
+type ConfigTheme =
+  | "default"
+  | "redux-dark"
+  | "forest"
+  | "neutral"
+  | "mc"
+  | "base"
+  | "redux"
+  | "redux-dark";
+
+type ConfigLook = "classic" | "handDrawn" | "neo";
+type ConfigLayout = "dagre" | "elk";
+type ConfigThemeVariables = {
+  fontSize: `${number}px`;
+  fontFamily: string;
+  padding: `${number}px`;
+  lineHeight: string;
+  nodeSpacing: number;
+  edgeSpacing: number;
+};
+type ConfigFlowchart = {
+  nodeSpacing: number;
+  rankSpacing: number;
+  htmlLabels: boolean;
+};
+
+export type MermaidERDiagramConfig = {
+  type: Exclude<PrismaGeneratorsKeys, "mermaid-class">;
+  config: Partial<{
+    theme: ConfigTheme;
+    layout: ConfigLayout;
+    look: ConfigLook;
+    themeVariables: Partial<ConfigThemeVariables>;
+    flowchart: Partial<ConfigFlowchart>;
+  }>;
+};
+
+export type MermaidClassDiagramConfig = {
+  type: Exclude<PrismaGeneratorsKeys, "mermaid-erd">;
+  config: Partial<{
+    theme: ConfigTheme;
+    layout: ConfigLayout;
+    look: ConfigLook;
+    themeVariables: Partial<ConfigThemeVariables>;
+    flowchart: Partial<ConfigFlowchart>;
+    class: Partial<{
+      hideEmptyMembersBox: boolean;
+    }>;
+  }>;
+};
+
+export type MermaidDiagramConfig =
+  | MermaidERDiagramConfig
+  | MermaidClassDiagramConfig;
+
 export type GenerateDiagramOptions = {
   generatorPrismaDocument?: DMMF.Document;
+  config?: MermaidDiagramConfig;
   schemaPath: string;
   outputPath: string | undefined;
 };
