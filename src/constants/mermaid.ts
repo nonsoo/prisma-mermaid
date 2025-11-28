@@ -10,6 +10,7 @@ export const mermaidERDiagramConfig = {
   theme: "neutral",
   layout: "dagre",
   look: "classic",
+  panZoom: true,
   themeVariables: {
     fontSize: "20px",
     fontFamily: "Arial",
@@ -27,6 +28,7 @@ export const mermaidClassDiagramConfig = {
   theme: "neutral",
   layout: "dagre",
   look: "classic",
+  panZoom: true,
   themeVariables: {
     fontFamily: "Arial",
     lineHeight: "1.4",

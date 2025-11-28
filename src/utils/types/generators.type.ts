@@ -32,6 +32,7 @@ export type MermaidERDiagramConfig = {
     theme: ConfigTheme;
     layout: ConfigLayout;
     look: ConfigLook;
+    panZoom: boolean;
     themeVariables: Partial<ConfigThemeVariables>;
     flowchart: Partial<ConfigFlowchart>;
   }>;
@@ -45,6 +46,7 @@ export type MermaidClassDiagramConfig = {
     look: ConfigLook;
     themeVariables: Partial<ConfigThemeVariables>;
     flowchart: Partial<ConfigFlowchart>;
+    panZoom: boolean;
     class: Partial<{
       hideEmptyMembersBox: boolean;
     }>;
