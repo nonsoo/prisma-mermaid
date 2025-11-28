@@ -79,10 +79,7 @@ import {
 const config = {
   type: "mermaid-erd",
   config: {
-    type: "mermaid-erd",
-    config: {
-      layout: "elk",
-    },
+    layout: "elk",
   },
 } satisfies MermaidDiagramConfig;
 
