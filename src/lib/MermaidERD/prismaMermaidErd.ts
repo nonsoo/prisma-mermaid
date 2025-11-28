@@ -87,8 +87,7 @@ export const generateDiagram = async ({
           `\t\t${field.type} ${field.name} ${getKeyConstraints(
             field.isId,
             field.name,
-            foreignKeys,
-            field.nativeType
+            foreignKeys
           )} ${getOptionalitySymbol(field.isRequired)}`
         );
 
