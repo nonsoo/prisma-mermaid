@@ -15,6 +15,7 @@ import {
   generateRelationships,
   getKeyConstraints,
   getOptionalitySymbol,
+  validateForeignKeys,
 } from "./utils.ts";
 
 const { getDMMF } = pkg;
@@ -72,6 +73,7 @@ export const generateDiagram = async ({
     schemaModels.forEach((model) => {
       mermaidLines.push(`\t${model.name} {`);
 
+      const foreignKeyLocation = new Map<string, number>();
       const foreignKeys = new Set<string>();
 
       model.fields.forEach((field) => {
@@ -90,6 +92,8 @@ export const generateDiagram = async ({
           )} ${getOptionalitySymbol(field.isRequired)}`
         );
 
+        foreignKeyLocation.set(field.name, mermaidLines.length - 1);
+
         if (field.relationName) {
           if (!relationships[field.relationName]) {
             relationships[field.relationName] = [];
@@ -101,6 +105,12 @@ export const generateDiagram = async ({
             isRequired: field.isRequired ?? false,
           });
         }
+      });
+
+      validateForeignKeys({
+        foreignKeyLocation,
+        foreignKeys,
+        mermaidLines,
       });
 
       mermaidLines.push(`\t}`);
