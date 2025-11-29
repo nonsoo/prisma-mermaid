@@ -104,7 +104,7 @@ export const generateDiagram = async ({
 
     writeFileSync(outFile, output, "utf-8");
 
-    console.log(`Mermaid Class Diagram written to: ${outFile}`);
+    console.log(`Mermaid Class Diagram generated at: ${outFile}`);
 
     return outFile;
   } catch (e) {
