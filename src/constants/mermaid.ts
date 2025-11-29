@@ -15,7 +15,7 @@ export const mermaidERDiagramConfig = {
     fontSize: "20px",
     fontFamily: "Arial",
     padding: "12px",
-    lineHeight: "1.4",
+    lineHeight: 1.4,
   },
   flowchart: {
     nodeSpacing: 80,
@@ -31,7 +31,7 @@ export const mermaidClassDiagramConfig = {
   panZoom: true,
   themeVariables: {
     fontFamily: "Arial",
-    lineHeight: "1.4",
+    lineHeight: 1.4,
   },
   flowchart: {
     nodeSpacing: 300,

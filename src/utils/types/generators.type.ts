@@ -16,7 +16,7 @@ type ConfigThemeVariables = {
   fontSize: `${number}px`;
   fontFamily: string;
   padding: `${number}px`;
-  lineHeight: string;
+  lineHeight: number;
   nodeSpacing: number;
   edgeSpacing: number;
 };

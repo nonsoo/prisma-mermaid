@@ -56,10 +56,10 @@ export const generateDiagram = async ({
     };
 
     const mermaidLines: string[] = [
+      generateMermaidConfig(diagramConfig, models),
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid Class Diagram.  Do Not Edit Directly.",
       "%% --------------------------------------------\n",
-      generateMermaidConfig(diagramConfig, models),
       "classDiagram",
     ];
 
