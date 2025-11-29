@@ -66,10 +66,10 @@ export const generateDiagram = async ({
     const relationships: Relationships = {};
 
     models.forEach((model) => {
-      mermaidLines.push(`class ${model.name} {`);
+      mermaidLines.push(`\tclass ${model.name} {`);
 
       model.fields.forEach((field) => {
-        mermaidLines.push(`  ${field.type} ${field.name}`);
+        mermaidLines.push(`\t\t${field.type} ${field.name}`);
 
         if (field.relationName) {
           if (!relationships[field.relationName]) {
@@ -85,15 +85,15 @@ export const generateDiagram = async ({
         }
       });
 
-      mermaidLines.push("}");
+      mermaidLines.push("\t}");
     });
 
     enums.forEach((enumDef) => {
-      mermaidLines.push(`class ${enumDef.name} {`);
+      mermaidLines.push(`\tclass ${enumDef.name} {`);
       enumDef.values.forEach((val) => {
-        mermaidLines.push(`  <<enumeration>> ${val.name}`);
+        mermaidLines.push(`\t\t<<enumeration>> ${val.name}`);
       });
-      mermaidLines.push("}");
+      mermaidLines.push("\t}");
     });
 
     const relationLines = generateRelationships({ relationships });
