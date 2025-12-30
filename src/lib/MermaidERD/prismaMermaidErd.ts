@@ -62,10 +62,10 @@ export const generateDiagram = async ({
     };
 
     const mermaidLines: string[] = [
+      generateMermaidConfig(diagramConfig, schemaModels),
       "%% --------------------------------------------",
       "%% Auto-generated Mermaid ER Diagram. Do Not Edit Directly.",
       "%% --------------------------------------------\n",
-      generateMermaidConfig(diagramConfig, schemaModels),
       "erDiagram",
     ];
     const relationships: Relationships = {};
