@@ -4,7 +4,7 @@
   "description": "A Prisma generator that generates Mermaid Class or ER diagrams from your Prisma schema.",
   "main": "build/index.js",
   "bin": {
-    "prisma-mermaid": "./build/lib/PrismaMermaidGenerators/bin.cjs"
+    "prisma-mermaid": "build/lib/PrismaMermaidGenerators/bin.cjs"
   },
   "types": "build/lib/PrismaMermaidGenerators/index.d.js",
   "files": [
@@ -34,7 +34,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nonsoo/prisma-mermaid.git"
+    "url": "git+https://github.com/nonsoo/prisma-mermaid.git"
   },
   "engines": {
     "node": ">=22.0.0"
