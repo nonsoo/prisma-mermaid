@@ -3,6 +3,8 @@ import type {
   MermaidDiagramConfig,
 } from "@/utils/types/generators.type.ts";
 
+import { dump } from "js-yaml";
+
 import {
   DEFAULT_BASE_EDGE_SPACING,
   DEFAULT_BASE_NODE_SPACING,
@@ -46,8 +48,19 @@ const generateMermaidConfig = (
     };
   }
 
-  const json = JSON.stringify(config, null, 2);
-  return `%%{init: ${json}}%%\n`;
+  const { title, ...rest } = config;
+
+  const diagramConfig = {
+    config: rest,
+    ...(title ? { title } : {}),
+  };
+
+  const yamlString = dump(diagramConfig, {
+    indent: 2,
+    lineWidth: 1000,
+  });
+
+  return `---\n${yamlString}---\n`;
 };
 
 export { generateMermaidConfig, generateDiagramSpacing };

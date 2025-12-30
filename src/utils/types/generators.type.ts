@@ -16,7 +16,7 @@ type ConfigThemeVariables = {
   fontSize: `${number}px`;
   fontFamily: string;
   padding: `${number}px`;
-  lineHeight: string;
+  lineHeight: number;
   nodeSpacing: number;
   edgeSpacing: number;
 };
@@ -32,8 +32,10 @@ export type MermaidERDiagramConfig = {
     theme: ConfigTheme;
     layout: ConfigLayout;
     look: ConfigLook;
+    panZoom: boolean;
     themeVariables: Partial<ConfigThemeVariables>;
     flowchart: Partial<ConfigFlowchart>;
+    title: string;
   }>;
 };
 
@@ -45,9 +47,11 @@ export type MermaidClassDiagramConfig = {
     look: ConfigLook;
     themeVariables: Partial<ConfigThemeVariables>;
     flowchart: Partial<ConfigFlowchart>;
+    panZoom: boolean;
     class: Partial<{
       hideEmptyMembersBox: boolean;
     }>;
+    title: string;
   }>;
 };
 

@@ -10,7 +10,7 @@ import packageData from "../../../package.json" with { type: "json" };
 generatorHandler({
   onManifest: () => {
     return {
-      version: packageData['version'],
+      version: packageData["version"],
       prettyName: "Mermaid Diagram",
     };
   },
@@ -26,14 +26,14 @@ generatorHandler({
     }
 
     if (Array.isArray(formats)) {
-      for (const format of formats) {
+      for await (const format of formats) {
         const mermaidGenerator = prismaGenerators.get(
           format as "mermaid-erd" | "mermaid-class"
         );
 
         if (!mermaidGenerator) continue;
 
-        mermaidGenerator({
+        await mermaidGenerator({
           schemaPath,
           outputPath: outputDir,
           generatorPrismaDocument,
@@ -49,7 +49,7 @@ generatorHandler({
 
     if (!mermaidGenerator) return;
 
-    mermaidGenerator({
+    await mermaidGenerator({
       schemaPath,
       outputPath: outputDir,
       generatorPrismaDocument,

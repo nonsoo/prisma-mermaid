@@ -10,11 +10,12 @@ export const mermaidERDiagramConfig = {
   theme: "neutral",
   layout: "dagre",
   look: "classic",
+  panZoom: true,
   themeVariables: {
     fontSize: "20px",
     fontFamily: "Arial",
     padding: "12px",
-    lineHeight: "1.4",
+    lineHeight: 1.4,
   },
   flowchart: {
     nodeSpacing: 80,
@@ -27,9 +28,10 @@ export const mermaidClassDiagramConfig = {
   theme: "neutral",
   layout: "dagre",
   look: "classic",
+  panZoom: true,
   themeVariables: {
     fontFamily: "Arial",
-    lineHeight: "1.4",
+    lineHeight: 1.4,
   },
   flowchart: {
     nodeSpacing: 300,
