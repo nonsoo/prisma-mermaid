@@ -48,16 +48,17 @@ const generateMermaidConfig = (
     };
   }
 
-  const finalConfig = {
-    config,
+  const { title, ...rest } = config;
+
+  const diagramConfig = {
+    config: rest,
+    ...(title ? { title } : {}),
   };
 
-  const yamlString = dump(finalConfig, {
+  const yamlString = dump(diagramConfig, {
     indent: 2,
     lineWidth: 1000,
   });
-
-  console.log(yamlString);
 
   return `---\n${yamlString}---\n`;
 };
