@@ -4,7 +4,7 @@ import type {
 } from "@/utils/types/generators.type.ts";
 
 import pkg from "@prisma/internals";
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
 import { mermaidClassDiagramConfig } from "@/constants/mermaid.ts";
@@ -12,7 +12,7 @@ import { generateMermaidConfig } from "@/utils/mermaid.ts";
 
 import { generateRelationships } from "./utils.ts";
 
-const { getDMMF } = pkg;
+const { getDMMF, getSchemaWithPath } = pkg;
 
 /**
  * Generates a Mermaid **Class Diagram** from a Prisma schema.
@@ -38,10 +38,14 @@ export const generateDiagram = async ({
     : path.join(`${process.cwd()}/src/generated/diagrams`);
 
   try {
+    const { schemas } = await getSchemaWithPath({
+      schemaPath: { cliProvidedPath: schemaPath },
+    });
+
     const prismaDocument =
       generatorPrismaDocument ??
       (await getDMMF({
-        datamodel: readFileSync(schemaPath, "utf-8"),
+        datamodel: schemas,
       }));
 
     const models = prismaDocument.datamodel.models;

@@ -4,7 +4,7 @@ import type {
 } from "@/utils/types/generators.type.ts";
 
 import pkg from "@prisma/internals";
-import { readFileSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 
@@ -18,7 +18,7 @@ import {
   validateForeignKeys,
 } from "./utils.ts";
 
-const { getDMMF } = pkg;
+const { getDMMF, getSchemaWithPath } = pkg;
 
 /**
  * Generates a Mermaid ERD (Entity-Relationship Diagram) from a Prisma schema.
@@ -44,10 +44,14 @@ export const generateDiagram = async ({
     : path.join(`${process.cwd()}/src/generated/diagrams`);
 
   try {
+    const { schemas } = await getSchemaWithPath({
+      schemaPath: { cliProvidedPath: schemaPath },
+    });
+
     const prismaDocument =
       generatorPrismaDocument ??
       (await getDMMF({
-        datamodel: readFileSync(schemaPath, "utf-8"),
+        datamodel: schemas,
       }));
 
     const schemaModels = prismaDocument.datamodel.models;
