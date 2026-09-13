@@ -2,11 +2,11 @@
   "name": "@nonsoo/prisma-mermaid",
   "version": "0.2.0",
   "description": "A Prisma generator that generates Mermaid Class or ER diagrams from your Prisma schema.",
-  "main": "build/index.js",
+  "main": "build/index.mjs",
   "bin": {
     "prisma-mermaid": "build/lib/PrismaMermaidGenerators/bin.cjs"
   },
-  "types": "build/lib/PrismaMermaidGenerators/index.d.js",
+  "types": "build/lib/PrismaMermaidGenerators/index.d.mts",
   "files": [
     "build"
   ],
@@ -41,10 +41,10 @@
   },
   "exports": {
     ".": {
-      "types": "./build/index.d.ts",
-      "import": "./build/index.js",
+      "types": "./build/index.d.mts",
+      "import": "./build/index.mjs",
       "require": "./build/index.cjs",
-      "default": "./build/index.js"
+      "default": "./build/index.mjs"
     }
   },
   "devDependencies": {
