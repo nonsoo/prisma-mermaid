@@ -4,6 +4,9 @@ import tseslint, { parser } from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import prettierConfig from "eslint-config-prettier";
 import perfectionist from "eslint-plugin-perfectionist";
+import { fileURLToPath } from "node:url";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig([
   globalIgnores([
@@ -18,7 +21,7 @@ export default defineConfig([
     "tmp",
     "vendor",
     "eslint.config.ts",
-    "vitest.config.mts",
+    "vitest.config.ts",
     "tsup.config.ts",
   ]),
   {
@@ -88,21 +91,30 @@ export default defineConfig([
           internalPattern: ["^~/.+"],
           partitionByComment: false,
           partitionByNewLine: false,
-          newlinesBetween: "always",
-          maxLineLength: undefined,
+          newlinesBetween: 1,
           groups: [
             "type",
-            "internal-type",
-            ["builtin", "external"],
+            "type-internal",
+            "absolute-internal-module-type",
+            { group: ["builtin", "external"], type: "alphabetical" },
             "internal",
-            ["parent", "sibling", "index"],
+            "absolute-internal-module",
+            { group: ["parent", "sibling", "index"], type: "alphabetical" },
             "style",
-            "object",
             "unknown",
           ],
-          customGroups: { type: {}, value: {} },
+          customGroups: [
+            {
+              groupName: "absolute-internal-module-type",
+              elementNamePattern: ["^@/.+"],
+              selector: "type",
+            },
+            {
+              groupName: "absolute-internal-module",
+              elementNamePattern: ["^@/.+"],
+            },
+          ],
           environment: "node",
-          tsconfigRootDir: ".",
         },
       ],
     },
