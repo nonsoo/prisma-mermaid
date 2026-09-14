@@ -56,8 +56,7 @@ export type MermaidClassDiagramConfig = {
 };
 
 export type MermaidDiagramConfig =
-  | MermaidERDiagramConfig
-  | MermaidClassDiagramConfig;
+  MermaidERDiagramConfig | MermaidClassDiagramConfig;
 
 export type GenerateDiagramOptions = {
   generatorPrismaDocument?: DMMF.Document;
