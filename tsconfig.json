@@ -2,7 +2,7 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
+    "rootDir": ".",
 
     "module": "nodenext",
     "target": "esnext",
@@ -25,10 +25,9 @@
     "skipLibCheck": true,
 
     "noEmit": true /* Disable emitting files from a compilation. */,
-    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     }
   },
-  "exclude": ["eslint.config.ts", "vitest.config.ts", "tsup.config.ts"]
+  "exclude": ["vitest.config.ts", "tsup.config.ts"]
 }
